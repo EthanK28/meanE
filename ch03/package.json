@@ -1,0 +1,9 @@
+{
+  "name" : "MEAN",
+  "version" : "0.0.3",
+  "description": "ch03",
+  "main": "server.js",
+  "dependencies" : {
+    "express": "lastest"
+  }
+}
