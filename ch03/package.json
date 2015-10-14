@@ -4,6 +4,6 @@
   "description": "ch03",
   "main": "server.js",
   "dependencies" : {
-    "express": "lastest"
+    
   }
 }
