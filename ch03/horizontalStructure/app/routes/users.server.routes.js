@@ -5,9 +5,10 @@ module.exports = function(app) {
         .post(users.create)
         .get(users.list);
 
-    app.route('/users/:userId').
+    app.route('/users/:userId')
         .get(users.read)
-        .put(users.update);
+        .put(users.update)
+        .delete(users.delete);
 
     app.param('userId', users.userByID);
 };
