@@ -7,7 +7,23 @@ module.exports = function() {
         User.findOne({
             username: username
         }, function(err, user) {
-            
+            if (err) {
+                return done(err);
+            }
+
+            if(!user) {
+                return done(null, false, {
+                    messages: 'Unknown user'
+                });
+            }
+
+            if(!user.authenticate(password)) {
+                return done(null, false, {
+                    messages: 'Unkown user'
+                });
+            };
+
+            return done(null, user);
         });
     }));
 }
