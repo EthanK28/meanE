@@ -11,14 +11,14 @@
         <a href="/signup">Signup</a>
         <a href="/signin">Signin</a>
     <% } %>
-    <section>
-        <input type="text" id="text1" ng-model="name">
-        <input type="text" id="text2" ng-model="name">
-    </section>
+
+    <section ng-include="'example/views/example.client.view.html'"></section>
+
     <!-- <br> -->
       <!-- <img src="img/logo.jpg" alt="Logo"> -->
 
      <script src="/lib/angular/angular.js"></script>
+     <script type="text/javascript" src="/example/example.client.module.js"></script>
      <script src="/application.js"></script>
     </body>
 </html>

@@ -132,36 +132,40 @@ exports.signout = function(req, res) {
     res.reidrect('/');
 };
 
-exports.saveOAuthUserProfile = function(req, res, profile, done) {
-    User.findOne({
-        provider: profile.provider,
-        provider: profile.providerId
-    }, function(err, user) {
-        if (err) {
-            return done(err);
-        } else {
-            if(!user) {
-                var possibleUsername = profile ||
-                    ((profile.email) ? profile.split('@')[0] : '');
+// Create a new controller method that creates new 'OAuth' users
+exports.saveOAuthUserProfile = function(req, profile, done) {
+	// Try finding a user document that was registered using the current OAuth provider
+	User.findOne({
+		provider: profile.provider,
+		providerId: profile.providerId
+	}, function(err, user) {
+		// If an error occurs continue to the next middleware
+		if (err) {
+			return done(err);
+		} else {
+			// If a user could not be found, create a new user, otherwise, continue to the next middleware
+			if (!user) {
+				// Set a possible base username
+				var possibleUsername = profile.username || ((profile.email) ? profile.email.split('@')[0] : '');
 
-                User.findUniqueUsername(possibleUsername, null,
-                    function(availableUsername) {
-                        profile.username = availableUsername;
+				// Find a unique available username
+				User.findUniqueUsername(possibleUsername, null, function(availableUsername) {
+					// Set the available user name
+					profile.username = availableUsername;
 
-                        user = new User(profile);
+					// Create the user
+					user = new User(profile);
 
-                        user.save(function(err) {
-                            if (err) {
-                                var message = _this.getErrorMessage(err);
-
-                                req.flash('error', message);
-                                return res.redirect('/signup');
-                            }
-                        });
-                    });
-            } else {
-                return done(err, user);
-            }
-        }
-    });
+					// Try saving the new user document
+					user.save(function(err) {
+						// Continue to the next middleware
+						return done(err, user);
+					});
+				});
+			} else {
+				// Continue to the next middleware
+				return done(err, user);
+			}
+		}
+	});
 };
