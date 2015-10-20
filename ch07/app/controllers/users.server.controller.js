@@ -129,7 +129,7 @@ exports.signup = function(req, res, next) {
 
 exports.signout = function(req, res) {
     req.logout();
-    res.reidrect('/');
+    res.redirect('/');
 };
 
 // Create a new controller method that creates new 'OAuth' users
